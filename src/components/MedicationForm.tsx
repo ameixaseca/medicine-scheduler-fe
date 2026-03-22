@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { Save } from 'lucide-react'
 import type { MedicationPayload } from '../api/medications'
 
 interface Props {
@@ -41,49 +42,51 @@ export default function MedicationForm({ initial, onSubmit, submitLabel }: Props
       await onSubmit({ name, dosage, unit, applicationMethod, startDate,
         endDate: endDate || undefined, times })
     } catch {
-      setError('Failed to save. Check your inputs.')
+      setError('Erro ao salvar. Verifique os dados.')
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-group">
-        <label htmlFor="med-name">Name</label>
+        <label htmlFor="med-name">Nome</label>
         <input id="med-name" value={name} onChange={e => setName(e.target.value)} required />
       </div>
       <div className="form-group">
-        <label htmlFor="dosage">Dosage</label>
+        <label htmlFor="dosage">Dose</label>
         <input id="dosage" value={dosage} onChange={e => setDosage(e.target.value)} required />
       </div>
       <div className="form-group">
-        <label htmlFor="unit">Unit</label>
+        <label htmlFor="unit">Unidade</label>
         <input id="unit" value={unit} onChange={e => setUnit(e.target.value)} required />
       </div>
       <div className="form-group">
-        <label htmlFor="method">Application Method</label>
+        <label htmlFor="method">Forma de aplicação</label>
         <input id="method" value={applicationMethod} onChange={e => setApplicationMethod(e.target.value)} required />
       </div>
       <div className="form-group">
-        <label htmlFor="start">Start Date</label>
+        <label htmlFor="start">Data de início</label>
         <input id="start" type="date" value={startDate} onChange={e => setStartDate(e.target.value)} required />
       </div>
       <div className="form-group">
-        <label htmlFor="end">End Date (optional)</label>
+        <label htmlFor="end">Data de término (opcional)</label>
         <input id="end" type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
       </div>
       <div className="form-group">
-        <label htmlFor="freq">Frequency (times per day)</label>
+        <label htmlFor="freq">Frequência (vezes por dia)</label>
         <input id="freq" type="number" min={1} max={24} value={frequency}
           onChange={e => handleFrequencyChange(Number(e.target.value))} />
       </div>
       {times.map((t, i) => (
         <div key={i} className="form-group">
-          <label htmlFor={`time-${i}`}>Time {i + 1}</label>
+          <label htmlFor={`time-${i}`}>Horário {i + 1}</label>
           <input id={`time-${i}`} type="text" placeholder="HH:mm" value={t}
             onChange={e => handleTimeChange(i, e.target.value)} pattern="\d{2}:\d{2}" />
         </div>
       ))}
-      <button type="submit" className="btn-primary btn-submit">{submitLabel}</button>
+      <button type="submit" className="btn-primary btn-submit">
+        <Save size={15} /> {submitLabel}
+      </button>
       {error && <p role="alert">{error}</p>}
     </form>
   )

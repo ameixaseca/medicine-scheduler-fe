@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { ArrowLeft, Pill } from 'lucide-react'
 import { getMedication, createMedication, updateMedication } from '../api/medications'
 import type { MedicationPayload } from '../api/medications'
 import MedicationForm from '../components/MedicationForm'
@@ -30,17 +31,17 @@ export default function MedicationFormPage() {
     }
   }
 
-  if (isEdit && !initial) return <p>Loading…</p>
+  if (isEdit && !initial) return <p>Carregando…</p>
 
   return (
     <main>
       <header className="page-header">
         <Link to={isEdit ? '#' : `/patients/${patientId}`} className="back-link"
-          onClick={() => navigate(-1)}>← Back</Link>
-        <h1>{isEdit ? 'Edit Medication' : 'New Medication'}</h1>
+          onClick={() => navigate(-1)}><ArrowLeft size={16} /> Voltar</Link>
+        <h1><Pill size={20} /> {isEdit ? 'Editar medicamento' : 'Novo medicamento'}</h1>
       </header>
       <div className="page-content">
-        <MedicationForm initial={initial} onSubmit={handleSubmit} submitLabel={isEdit ? 'Save' : 'Create'} />
+        <MedicationForm initial={initial} onSubmit={handleSubmit} submitLabel={isEdit ? 'Salvar' : 'Criar'} />
       </div>
     </main>
   )

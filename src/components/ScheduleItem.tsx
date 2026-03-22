@@ -1,3 +1,4 @@
+import { CheckCircle2, XCircle, Check, SkipForward } from 'lucide-react'
 import type { ScheduleItem as Item } from '../api/schedule'
 import SyncIndicator from './SyncIndicator'
 
@@ -29,12 +30,26 @@ export default function ScheduleItem({ item, pendingSync, onConfirm, onSkip }: P
       {item.status === 'pending' && (
         <div className="card-actions">
           <button className="btn-primary btn-compact" onClick={() => onConfirm(item.logId)}>
-            Confirmar
+            <Check size={14} /> Confirmar
           </button>
           <button className="btn-warning btn-compact" onClick={() => onSkip(item.logId)}>
-            Pular
+            <SkipForward size={14} /> Pular
           </button>
           {pendingSync && <SyncIndicator />}
+        </div>
+      )}
+      {item.status === 'taken' && (
+        <div className="card-actions">
+          <span className="status-badge status-badge--taken">
+            <CheckCircle2 size={13} /> Administrado
+          </span>
+        </div>
+      )}
+      {item.status === 'skipped' && (
+        <div className="card-actions">
+          <span className="status-badge status-badge--skipped">
+            <XCircle size={13} /> Pulado
+          </span>
         </div>
       )}
     </div>

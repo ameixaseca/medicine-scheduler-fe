@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { Users, User, LogOut, CalendarDays } from 'lucide-react'
 import { getTodaySchedule, confirmLog, skipLog } from '../api/schedule'
 import type { ScheduleItem as Item } from '../api/schedule'
 import { getSettings } from '../api/settings'
@@ -13,7 +14,7 @@ export default function DashboardPage() {
   const [items, setItems] = useState<Item[]>([])
   const [toast, setToast] = useState<string | null>(null)
   const [pendingSyncIds, setPendingSyncIds] = useState<Set<string>>(new Set())
-  const { logout } = useAuth()
+  const { logout, userName } = useAuth()
   const alarmFiredRef = useRef<Set<string>>(new Set())
 
   const load = useCallback(async () => {
@@ -25,7 +26,7 @@ export default function DashboardPage() {
 
   useEffect(() => { load() }, [load])
 
-  // In-app alarm: check every 30s for pending items due within 1 minute
+  // Alarme interno: verifica a cada 30s medicamentos com vencimento em 1 minuto
   useEffect(() => {
     const check = setInterval(async () => {
       try {
@@ -43,21 +44,21 @@ export default function DashboardPage() {
           playAlarm()
         }
       } catch {
-        // Silently ignore — alarm is best-effort when offline
+        // Alarme é opcional — ignora falhas silenciosamente
       }
     }, 30_000)
 
     return () => clearInterval(check)
   }, [items])
 
-  // Retry queued actions when coming back online
+  // Reprocessa fila offline ao reconectar
   useEffect(() => {
     const retry = async () => {
       const queue = await getPendingQueue()
       for (const item of queue) {
         if (item.attempts >= 3) {
           await removeFromQueue(item.id!)
-          setToast('Some offline actions failed permanently.')
+          setToast('Algumas ações offline falharam permanentemente.')
           continue
         }
         try {
@@ -83,7 +84,7 @@ export default function DashboardPage() {
     } catch {
       await addToQueue({ logId, action: 'confirm', attempts: 0 })
       setPendingSyncIds(prev => new Set([...prev, logId]))
-      setToast('Offline. Action queued.')
+      setToast('Sem conexão. Ação salva para sincronizar.')
     }
   }
 
@@ -94,31 +95,33 @@ export default function DashboardPage() {
     } catch {
       await addToQueue({ logId, action: 'skip', attempts: 0 })
       setPendingSyncIds(prev => new Set([...prev, logId]))
-      setToast('Offline. Action queued.')
+      setToast('Sem conexão. Ação salva para sincronizar.')
     }
   }
 
   return (
     <main>
       <header className="page-header">
-        <h1>Today's Schedule</h1>
+        <h1><CalendarDays size={22} /> Agenda de Hoje</h1>
         <nav className="dashboard-nav">
-          <Link to="/patients" className="btn-nav">Patients</Link>
-          <Link to="/settings" className="btn-nav">Settings</Link>
-          <button className="btn-nav btn-nav--muted" onClick={logout}>Log out</button>
+          <Link to="/patients" className="btn-nav"><Users size={15} /> Pacientes</Link>
+          <Link to="/profile" className="btn-nav"><User size={15} /> {userName ?? 'Perfil'}</Link>
+          <button className="btn-nav btn-nav--muted" onClick={logout}><LogOut size={15} /> Sair</button>
         </nav>
       </header>
       <div className="page-content">
-        {items.length === 0 && <p>No medications scheduled today.</p>}
-        {items.map(item => (
-          <ScheduleItemComponent
-            key={item.logId}
-            item={item}
-            pendingSync={pendingSyncIds.has(item.logId)}
-            onConfirm={handleConfirm}
-            onSkip={handleSkip}
-          />
-        ))}
+        {items.length === 0 && <p>Nenhum medicamento agendado para hoje.</p>}
+        <div className="schedule-list">
+          {items.map(item => (
+            <ScheduleItemComponent
+              key={item.logId}
+              item={item}
+              pendingSync={pendingSyncIds.has(item.logId)}
+              onConfirm={handleConfirm}
+              onSkip={handleSkip}
+            />
+          ))}
+        </div>
       </div>
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </main>

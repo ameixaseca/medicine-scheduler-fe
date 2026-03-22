@@ -7,7 +7,7 @@ import DashboardPage from './pages/DashboardPage'
 import PatientsPage from './pages/PatientsPage'
 import PatientDetailPage from './pages/PatientDetailPage'
 import MedicationFormPage from './pages/MedicationFormPage'
-import SettingsPage from './pages/SettingsPage'
+import ProfilePage from './pages/ProfilePage'
 
 export default function App() {
   return (
@@ -22,7 +22,8 @@ export default function App() {
             <Route path="/patients/:id" element={<PatientDetailPage />} />
             <Route path="/patients/:patientId/medications/new" element={<MedicationFormPage />} />
             <Route path="/medications/:id/edit" element={<MedicationFormPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<Navigate to="/profile" replace />} />
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

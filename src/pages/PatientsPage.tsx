@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { ArrowLeft, UserPlus, Users } from 'lucide-react'
 import { getPatients, createPatient } from '../api/patients'
 import type { Patient } from '../api/patients'
 import PatientForm from '../components/PatientForm'
@@ -19,16 +20,16 @@ export default function PatientsPage() {
   return (
     <main>
       <header className="page-header">
-        <Link to="/" className="back-link">← Dashboard</Link>
-        <h1>Patients</h1>
+        <Link to="/" className="back-link"><ArrowLeft size={16} /> Agenda</Link>
+        <h1><Users size={20} /> Pacientes</h1>
       </header>
       <div className="page-content">
         <div>
           <button className="btn-secondary" onClick={() => setShowForm(v => !v)}>
-            + Add Patient
+            <UserPlus size={16} /> {showForm ? 'Cancelar' : 'Adicionar paciente'}
           </button>
         </div>
-        {showForm && <PatientForm onSubmit={handleCreate} submitLabel="Create" />}
+        {showForm && <PatientForm onSubmit={handleCreate} submitLabel="Criar" />}
         <ul className="item-list">
           {patients.map(p => (
             <li key={p.id} className="card">
