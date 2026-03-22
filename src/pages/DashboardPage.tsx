@@ -100,22 +100,26 @@ export default function DashboardPage() {
 
   return (
     <main>
-      <h1>Today's Schedule</h1>
-      <nav>
-        <Link to="/patients">Patients</Link>
-        <Link to="/settings">Settings</Link>
-        <button onClick={logout}>Log out</button>
-      </nav>
-      {items.length === 0 && <p>No medications scheduled today.</p>}
-      {items.map(item => (
-        <ScheduleItemComponent
-          key={item.logId}
-          item={item}
-          pendingSync={pendingSyncIds.has(item.logId)}
-          onConfirm={handleConfirm}
-          onSkip={handleSkip}
-        />
-      ))}
+      <header className="page-header">
+        <h1>Today's Schedule</h1>
+        <nav className="dashboard-nav">
+          <Link to="/patients" className="btn-nav">Patients</Link>
+          <Link to="/settings" className="btn-nav">Settings</Link>
+          <button className="btn-nav btn-nav--muted" onClick={logout}>Log out</button>
+        </nav>
+      </header>
+      <div className="page-content">
+        {items.length === 0 && <p>No medications scheduled today.</p>}
+        {items.map(item => (
+          <ScheduleItemComponent
+            key={item.logId}
+            item={item}
+            pendingSync={pendingSyncIds.has(item.logId)}
+            onConfirm={handleConfirm}
+            onSkip={handleSkip}
+          />
+        ))}
+      </div>
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </main>
   )
