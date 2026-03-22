@@ -34,9 +34,14 @@ export default function MedicationFormPage() {
 
   return (
     <main>
-      <Link to={isEdit ? '#' : `/patients/${patientId}`} onClick={() => navigate(-1)}>← Back</Link>
-      <h1>{isEdit ? 'Edit Medication' : 'New Medication'}</h1>
-      <MedicationForm initial={initial} onSubmit={handleSubmit} submitLabel={isEdit ? 'Save' : 'Create'} />
+      <header className="page-header">
+        <Link to={isEdit ? '#' : `/patients/${patientId}`} className="back-link"
+          onClick={() => navigate(-1)}>← Back</Link>
+        <h1>{isEdit ? 'Edit Medication' : 'New Medication'}</h1>
+      </header>
+      <div className="page-content">
+        <MedicationForm initial={initial} onSubmit={handleSubmit} submitLabel={isEdit ? 'Save' : 'Create'} />
+      </div>
     </main>
   )
 }

@@ -43,22 +43,32 @@ export default function SettingsPage() {
 
   return (
     <main>
-      <Link to="/">← Dashboard</Link>
-      <h1>Settings</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="notifPref">Notification Preference</label>
-        <select id="notifPref" name="notifPref" defaultValue={settings.notificationPreference}>
-          <option value="push">Push only</option>
-          <option value="alarm">In-app alarm only</option>
-          <option value="both">Both</option>
-        </select>
-        <label htmlFor="timezone">Timezone</label>
-        <input id="timezone" name="timezone" defaultValue={settings.timezone} />
-        <button type="submit">Save</button>
-      </form>
-      <hr />
-      <button onClick={handleEnablePush}>Enable Push Notifications</button>
-      <button onClick={handleDisablePush}>Disable Push Notifications</button>
+      <header className="page-header">
+        <Link to="/" className="back-link">← Dashboard</Link>
+        <h1>Settings</h1>
+      </header>
+      <div className="page-content">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="notifPref">Notification Preference</label>
+            <select id="notifPref" name="notifPref" defaultValue={settings.notificationPreference}>
+              <option value="push">Push only</option>
+              <option value="alarm">In-app alarm only</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="timezone">Timezone</label>
+            <input id="timezone" name="timezone" defaultValue={settings.timezone} />
+          </div>
+          <button type="submit" className="btn-primary btn-submit">Save</button>
+        </form>
+        <hr />
+        <div className="btn-stack">
+          <button className="btn-secondary" onClick={handleEnablePush}>Enable Push Notifications</button>
+          <button className="btn-secondary" onClick={handleDisablePush}>Disable Push Notifications</button>
+        </div>
+      </div>
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </main>
   )
