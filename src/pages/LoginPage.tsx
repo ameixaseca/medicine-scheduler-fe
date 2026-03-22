@@ -23,16 +23,20 @@ export default function LoginPage() {
   }
 
   return (
-    <main>
+    <main className="auth-main">
       <h1>Log in</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-        <label htmlFor="password">Password</label>
-        <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-        <button type="submit">Log in</button>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+        </div>
+        <button type="submit" className="btn-primary btn-submit">Log in</button>
       </form>
-      <Link to="/register">Create an account</Link>
+      <Link to="/register" className="auth-link">Create an account</Link>
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
     </main>
   )

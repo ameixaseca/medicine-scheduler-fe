@@ -25,18 +25,24 @@ export default function RegisterPage() {
   }
 
   return (
-    <main>
+    <main className="auth-main">
       <h1>Create account</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <input id="name" value={name} onChange={e => setName(e.target.value)} required />
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-        <label htmlFor="password">Password</label>
-        <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={8} />
-        <button type="submit">Register</button>
+        <div className="form-group">
+          <label htmlFor="name">Name</label>
+          <input id="name" value={name} onChange={e => setName(e.target.value)} required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={8} />
+        </div>
+        <button type="submit" className="btn-primary btn-submit">Register</button>
       </form>
-      <Link to="/login">Already have an account?</Link>
+      <Link to="/login" className="auth-link">Already have an account?</Link>
       {error && <Toast message={error} onDismiss={() => setError(null)} />}
     </main>
   )
