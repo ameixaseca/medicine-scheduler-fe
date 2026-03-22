@@ -380,7 +380,7 @@ p[role="alert"] {
   gap: var(--space-3);
 }
 
-.item-list .card a {
+.item-list .card a:only-child {
   display: block;
   flex: 1;
   color: var(--color-text);
@@ -388,7 +388,7 @@ p[role="alert"] {
   text-decoration: none;
 }
 
-.item-list .card a:hover {
+.item-list .card a:only-child:hover {
   color: var(--color-primary);
 }
 
