@@ -11,18 +11,31 @@ interface Props {
 export default function ScheduleItem({ item, pendingSync, onConfirm, onSkip }: Props) {
   const isOverdue = item.status === 'pending' && new Date(item.scheduledTime) < new Date()
 
+  const cardClass = [
+    'card',
+    item.status !== 'pending' ? 'card--done' : '',
+    isOverdue ? 'card--overdue' : '',
+  ].filter(Boolean).join(' ')
+
   return (
-    <div style={{ opacity: item.status !== 'pending' ? 0.6 : 1,
-      borderLeft: isOverdue ? '4px solid red' : undefined }}>
-      <span>{item.scheduledTimeLocal}</span>
-      <span>{item.patient.name} — {item.medication.name} {item.medication.dosage}{item.medication.unit}</span>
-      <span>{item.status}</span>
-      {pendingSync && <SyncIndicator />}
+    <div className={cardClass}>
+      <div className="card-header">
+        <span className="card-time">{item.scheduledTimeLocal}</span>
+        <span className="card-patient">{item.patient.name}</span>
+      </div>
+      <div className="card-body">
+        {item.medication.name} {item.medication.dosage}{item.medication.unit}
+      </div>
       {item.status === 'pending' && (
-        <>
-          <button onClick={() => onConfirm(item.logId)}>Confirm</button>
-          <button onClick={() => onSkip(item.logId)}>Skip</button>
-        </>
+        <div className="card-actions">
+          <button className="btn-primary btn-compact" onClick={() => onConfirm(item.logId)}>
+            Confirmar
+          </button>
+          <button className="btn-warning btn-compact" onClick={() => onSkip(item.logId)}>
+            Pular
+          </button>
+          {pendingSync && <SyncIndicator />}
+        </div>
       )}
     </div>
   )
