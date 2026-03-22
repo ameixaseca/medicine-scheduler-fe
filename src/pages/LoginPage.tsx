@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useEffect, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { login } from '../api/auth'
 import { useAuth } from '../hooks/useAuth'
@@ -8,15 +8,18 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const { login: setAuth } = useAuth()
+  const { isAuthenticated, login: setAuth } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated, navigate])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     try {
       const { accessToken } = await login(email, password)
       setAuth(accessToken)
-      navigate('/')
     } catch {
       setError('Invalid email or password.')
     }

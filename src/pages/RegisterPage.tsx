@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useEffect, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { register } from '../api/auth'
 import { useAuth } from '../hooks/useAuth'
@@ -9,8 +9,12 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const { login: setAuth } = useAuth()
+  const { isAuthenticated, login: setAuth } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/')
+  }, [isAuthenticated, navigate])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -18,7 +22,6 @@ export default function RegisterPage() {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
       const { accessToken } = await register(name, email, password, tz)
       setAuth(accessToken)
-      navigate('/')
     } catch {
       setError('Registration failed. Check your details.')
     }
