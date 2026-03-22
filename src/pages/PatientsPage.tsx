@@ -18,17 +18,25 @@ export default function PatientsPage() {
 
   return (
     <main>
-      <Link to="/">← Dashboard</Link>
-      <h1>Patients</h1>
-      <button onClick={() => setShowForm(v => !v)}>+ Add Patient</button>
-      {showForm && <PatientForm onSubmit={handleCreate} submitLabel="Create" />}
-      <ul>
-        {patients.map(p => (
-          <li key={p.id}>
-            <Link to={`/patients/${p.id}`}>{p.name}</Link>
-          </li>
-        ))}
-      </ul>
+      <header className="page-header">
+        <Link to="/" className="back-link">← Dashboard</Link>
+        <h1>Patients</h1>
+      </header>
+      <div className="page-content">
+        <div>
+          <button className="btn-secondary" onClick={() => setShowForm(v => !v)}>
+            + Add Patient
+          </button>
+        </div>
+        {showForm && <PatientForm onSubmit={handleCreate} submitLabel="Create" />}
+        <ul className="item-list">
+          {patients.map(p => (
+            <li key={p.id} className="card">
+              <Link to={`/patients/${p.id}`}>{p.name}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </main>
   )
 }
