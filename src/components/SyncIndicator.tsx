@@ -1,3 +1,3 @@
 export default function SyncIndicator() {
-  return <span title="Pending sync" aria-label="Pending sync">⏳</span>
+  return <span className="sync-indicator" aria-label="Pending sync">syncing…</span>
 }

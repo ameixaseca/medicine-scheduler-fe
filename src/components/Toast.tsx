@@ -9,10 +9,7 @@ export default function Toast({ message, onDismiss }: Props) {
   }, [onDismiss])
 
   return (
-    <div role="alert" style={{
-      position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
-      background: '#333', color: '#fff', padding: '12px 24px', borderRadius: 8
-    }}>
+    <div role="alert" className="toast">
       {message}
     </div>
   )
