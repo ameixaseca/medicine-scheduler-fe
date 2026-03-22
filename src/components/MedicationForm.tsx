@@ -47,32 +47,43 @@ export default function MedicationForm({ initial, onSubmit, submitLabel }: Props
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="med-name">Name</label>
-      <input id="med-name" value={name} onChange={e => setName(e.target.value)} required />
-      <label htmlFor="dosage">Dosage</label>
-      <input id="dosage" value={dosage} onChange={e => setDosage(e.target.value)} required />
-      <label htmlFor="unit">Unit</label>
-      <input id="unit" value={unit} onChange={e => setUnit(e.target.value)} required />
-      <label htmlFor="method">Application Method</label>
-      <input id="method" value={applicationMethod} onChange={e => setApplicationMethod(e.target.value)} required />
-      <label htmlFor="start">Start Date</label>
-      <input id="start" type="date" value={startDate} onChange={e => setStartDate(e.target.value)} required />
-      <label htmlFor="end">End Date (optional)</label>
-      <input id="end" type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-
-      <label htmlFor="freq">Frequency (times per day)</label>
-      <input id="freq" type="number" min={1} max={24} value={frequency}
-        onChange={e => handleFrequencyChange(Number(e.target.value))} />
-
+      <div className="form-group">
+        <label htmlFor="med-name">Name</label>
+        <input id="med-name" value={name} onChange={e => setName(e.target.value)} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="dosage">Dosage</label>
+        <input id="dosage" value={dosage} onChange={e => setDosage(e.target.value)} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="unit">Unit</label>
+        <input id="unit" value={unit} onChange={e => setUnit(e.target.value)} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="method">Application Method</label>
+        <input id="method" value={applicationMethod} onChange={e => setApplicationMethod(e.target.value)} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="start">Start Date</label>
+        <input id="start" type="date" value={startDate} onChange={e => setStartDate(e.target.value)} required />
+      </div>
+      <div className="form-group">
+        <label htmlFor="end">End Date (optional)</label>
+        <input id="end" type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+      </div>
+      <div className="form-group">
+        <label htmlFor="freq">Frequency (times per day)</label>
+        <input id="freq" type="number" min={1} max={24} value={frequency}
+          onChange={e => handleFrequencyChange(Number(e.target.value))} />
+      </div>
       {times.map((t, i) => (
-        <div key={i}>
+        <div key={i} className="form-group">
           <label htmlFor={`time-${i}`}>Time {i + 1}</label>
           <input id={`time-${i}`} type="text" placeholder="HH:mm" value={t}
             onChange={e => handleTimeChange(i, e.target.value)} pattern="\d{2}:\d{2}" />
         </div>
       ))}
-
-      <button type="submit">{submitLabel}</button>
+      <button type="submit" className="btn-primary btn-submit">{submitLabel}</button>
       {error && <p role="alert">{error}</p>}
     </form>
   )
